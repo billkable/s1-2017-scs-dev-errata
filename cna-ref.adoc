@@ -9,6 +9,8 @@ Cloud Native - Resources
 === CNA Guidelines
 - https://12factor.net/[12 Factor]
 - https://content.pivotal.io/blog/beyond-the-twelve-factor-app[Beyond 12 Factor]
+- https://refactoring.com/[Refactoring]
+- http://www.appcontinuum.io/[Application Continuum]
 
 === CNA Patterns
 - http://www.cloudcomputingpatterns.org/[Cloud Patterns]
@@ -16,7 +18,6 @@ Cloud Native - Resources
 - http://microservices.io/patterns/[Microservices Patterns]
 - http://www.enterpriseintegrationpatterns.com/[Enterprise Integration Patterns]
 - https://martinfowler.com/eaaCatalog/[Patterns of Enterprise Applications]
-- https://refactoring.com/[Refactoring]
 
 === Netflix OSS
 - Ribbon: https://github.com/Netflix/ribbon/wiki/
