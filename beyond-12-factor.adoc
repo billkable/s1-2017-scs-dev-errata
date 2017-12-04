@@ -1,0 +1,305 @@
+Beyond 12 Factor
+----------------
+:date: 10/21/2017
+:revision: 0.1
+:experimental:
+
+== Introduction
+- Cloud Native applications provide solutions to modern business
+problems, but at a cost.
+
+- Cloud Native solutions may compose of complex distributed systems.
+Such systems cannot be designed in same manner as legacy orchestrated
+monoliths.
+
+== Background
+
+=== The Original 12 Factor Application Methodology
+- https://12factor.net/
+
+=== The Original 12 Factor Application Methodology
+- Outlines architectural principles and patterns for modern application
+    * Clean contract between applications and the platform they run on
+    * Focus on scalability, continuous delivery, portability and cloud readiness
+- Authored by Heroku
+
+[NOTE.speaker]
+--
+A methodology for building software-as-a-service apps that:
+
+- Use declarative formats for setup automation, to minimize
+time and cost for new developers joining the project;
+
+- Have a clean contract with the underlying operating system,
+offering maximum portability between execution environments;
+
+- Are suitable for deployment on modern cloud platforms,
+obviating the need for servers and systems administration;
+
+- Minimize divergence between development and production,
+enabling continuous deployment for maximum agility;
+
+- And can scale up without significant changes to tooling,
+architecture, or development practices.
+
+- Most of these principles are built in to the Cloud Foundry platform
+--
+
+=== Beyond 12 Factors
+- The original Heroku guidelines are dated, and optimized for their platform
+- Additional 3 principles identified and documented by Pivotal
+- Original 12 are enhanced through field experience and mining
+ of best practices
+- Defined order of precedence
+
+=== Beyond 12 Factors - Reference
+- link:https://content.pivotal.io/blog/beyond-the-twelve-factor-app[Beyond 12 Factors]
+
+== The 15 Factors
+=== OneCodebaseOneApplication
+- An application has a single codebase
+    * Multiple codebases = distributed system (not an app)
+- Tracked in version control
+    * Git, Subversion, Mercurial, etc.
+
+- Multiple deployments
+    * Development, testing, staging, production, etc.
+    * Don't hardcode anything that varies with deployment
+
+[NOTE.speaker]
+--
+- On journey from Monolithic Architectures towards Microservices
+One Codebase may be assigned to Multiple Apps in a Multi-Module
+build.  In this case One Codebase - One Team more or less applies
+- Important not to span Codebase between Teams.
+--
+
+=== ApiFirst
+==== ApiFirst - Public contracts, External APIs
+- Build services to be consumed strictly through external API
+- Consumer depend _only_ on the external API.
+- Consumer knows _nothing_ of a service's internal implementation
+
+==== ApiFirst - 1st Class Citizens
+- Test for forward/backward compatibility
+- Publish APIs for public consumption
+- Consider versioning API's for forward and backward compatibility
+
+[NOTE.speaker]
+--
+Issues arise between teams if not implementing formal APIs, causing integration
+pain.
+
+Classic anti-pattern is avoiding API, and dipping to backend data-stores.
+This results in hard to detect defects, and causes integration nightmares.
+--
+
+=== DependencyManagement
+1. Explicitly declare and isolate dependencies
+    * Dependencies declared in a manifest
+        ** Maven POM, Gemfile, etc.
+    * Use a dependency isolation tool (e.g. bundle exec) to ensure that dependencies don’t leak in from the system
+    * The dependency management approach is applied uniformly to development and production
+    * Results in running the application after a deterministic build command
+
+=== DesignBuildReleaseRun
+==== DesignBuildReleaseRun
+- Strictly separate build and run stages
+    * Build stage: converts codebase into build (version)
+        ** Including managed dependencies
+    * Release stage: build + config = release
+    * Run: Runs app in execution environment
+
+==== DesignBuildReleaseRun - Cloud Foundry
+- In Cloud Foundry, these stages are clearly separated with cf push
+    * Developer executes a build
+    * Staging combines the build and config to create a droplet
+    * Droplets are copied to a container and run
+
+=== ConfigurationCredentialsCode
+==== ConfigurationCredentialsCode
+- External Configuration
+    * Config != internal immutable application configuration
+- Store config in the environment
+    * Anything that varies by deployment should not be included in the code
+    * Additionally consider separating config (e.g. database URL or feature flag) from credentials
+
+==== ConfigurationCredentialsCode - Environment
+- Environment may be:
+    * Environment Variables
+    * External configuration server recommended
+        ** Versioning and Audit Trail
+        ** Centralized Config Store
+
+[NOTE.speaker]
+--
+There is misconception that "Storing Configuration in the Environment" means
+leveraging environment variables.
+The problem with use of environment variables is that runtimes such as Java
+that source configuration from Environment Variables _must_ be restarted
+for configuration changes to take effect.  This is not a scalable solution
+when factoring in dynamic config changes such as thread management, logging
+levels, or feature toggles.
+A Centralized Config Store may be considered another backing resource to
+Cloud Native applications.
+--
+
+=== Logs
+- App logs are streams of aggregated, time-ordered events
+- Apps are not concerned with log management
+    * Just write to stdout or stderr
+    * Do not write to logfiles
+- Separate log managers handle management, debugging, analytics, monitoring, etc.
+    * Papertrail, Splunk …
+
+=== Disposability
+- Maximize robustness with fast startup and graceful shutdown
+- Processes should be disposable, they're stateless!
+- Should be quick to start
+    * Enhances scalability and fault tolerance
+    * Apps in containers start very quickly
+- Should exit gracefully / finish current requests
+    * Apps should be architected to handle unexpected terminations
+
+[NOTE.speaker]
+--
+The first way of thinking is that processes should exit gracefully by finishing
+the thing that they are currently working on.
+If you have submitted a request for a web page, you want that request to finish
+before the back end process dies.
+
+But sometimes this can't be helped, such as when the plug is pulled.  For these
+situations we like our processes to be idempotent, meaning  that you can safely re-process
+something without fear of duplicate processing.
+Reentrant means a half-processed job could re-enter the processing where it left off
+(rough definition).  Think of how Hadoop MR processes can die and be restarted with
+no data loss or data duplication.
+
+Crash-only software is, well, designed to crash.  Actually, designed so that whatever
+the process is doing, when the plug is pulled, the data is safe (idempotent,
+reentrant, etc..  Like pulling the battery out of your laptop, most Oss now start
+up faster after a crash than they do after normal shutdown.
+See http://lwn.net/Articles/191059/
+
+Robust processes may also leverage frameworks such as Netflix OSS Hystrix and Ribbon
+to handle graceful failure and recovery without requiring terminations of processes.
+--
+
+=== BackingServices
+- Treat backing services as attached resources:
+    * Service are consumed by the application
+        ** Database, message queues, SMTP servers
+    * May be locally managed or third-party managed
+    * Connected to via URL / configuration
+    * Swappable (change MySQL to an in-memory database)
+        ** The app and backing services are loosely coupled
+
+[NOTE.speaker]
+--
+- Backing resources need not only be restricted to middleware
+- Backing resources may be other services
+--
+
+=== EnvironmentParity
+==== EnvironmentParity
+- Keep development, staging and production as similar as possible
+    * This enables high quality, continuous delivery
+    * Use common tools and a clear separation of concerns
+        ** Application vs. operating environment/platform
+        ** Dependency management
+        ** Build, compile, release
+        ** Code, configuration, credentials
+
+==== EnvironmentParity
+- Use the same services in development and production
+- Minimize surprises in production
+
+[NOTE.speaker]
+--
+More than ever, developers can use the same services in development and production.
+The use case for “light” developer tools is diminishing.
+--
+
+=== AdminProcesses
+==== AdminProcesses - Don't Run Them
+- Do not run admin processes unless absolutely necessary
+    * Handle migrations via forward/backward compatibility in services code.
+
+==== AdminProcesses - If You Must
+- Admin processes / management tasks run as one-off processes
+    * Applies to developer admin or maintenance tasks (i.e. migration, clean-up).
+    * Run admin processes on the platform
+        ** Use the same environment, tools, language as application processes
+        ** Admin code ships with the application code to avoid synchronization issues
+
+=== PortBinding
+- Export an application’s services via port binding
+    * Every app instance is accessed via a URI and port number
+    * One app can become another app's service
+
+[NOTE.speaker]
+--
+Here is some useful info on this topic:
+  http://www.grahambrooks.com/2014/04/07/container-less-web-applications.html
+--
+
+=== StatelessProcesses
+==== StatelessProcesses - Stateless
+- Processes should not store internal state
+- Any necessary state is externalized as a backing service
+
+==== StatelessProcesses - Shared Nothing
+- Data needing to be shared should be persisted
+  * “Sticky sessions” violate 12-factor methodology
+  * Consider using GemFire cache or Redis key-value store
+- Use local memory or the local filesystem only as a single transaction “scratchpad”
+  * Use storage as a service if needed (Amazon S3, MongoDB)
+
+=== Concurrency
+- Achieve concurrency by scaling out horizontally
+- Scale by adding more app instances
+- But individual processes are free to multithread
+
+[NOTE.speaker]
+--
+Concurrency refers to the ability to have many concurrent users on many different app
+instances with no problems.
+--
+
+=== Telemetry
+==== Telemetry
+- Manual monitoring solutions do not scale for Cloud Native applications
+- No direct access to container endpoints
+- Think of your app as a "Space Probe"
+    * Remote, aggregate monitoring solutions are required
+
+==== Telemetry - Solutions
+- APM (App Performance Monitoring)
+- Domain specific monitoring/telemetry
+- Health and Aggregated Systems Logs
+
+[NOTE.speaker]
+--
+APM, Health and Systems logs are typically non-functional concerns critical
+to monitor for an application's health
+Domain specific monitoring is business specific, which may provide way to monitor
+operation of key business functions provided by the application (i.e. for example,
+in Ordering system, the number of orders processed successfully, ordered failed/retried,
+orders that failed that require remediation (fallout)
+--
+
+=== AuthenticationAuthorization
+==== AuthenticationAuthorization
+- Cloud Native apps require security for safety
+- Security should _never_ be an afterthought in application design.
+
+==== Authentication and Authorization - Solutions
+- OAuth2
+- OpenID Connect
+- SSO standards (such as SAML)
+
+== References
+- https://12factor.net/
+- https://content.pivotal.io/blog/beyond-the-twelve-factor-app
+- http://www.oreilly.com/webops-perf/free/beyond-the-twelve-factor-app.csp
+- https://www.slideshare.net/Container-Solutions/beyond-12-factor-developing-cloud-native-applications
