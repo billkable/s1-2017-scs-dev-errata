@@ -1,0 +1,22 @@
+Q&A
+===
+:date: 12/02/2017
+:revision: 0.1
+:experimental:
+
+== Course Logistics Q&A
+
+== Technical Q&A
+=== Testing
+- Question: Can Wiremock be used with Spock testing framework?
+	* Answers:
+	** See here, looks like a clean approach to use Wiremock capabilities with Spock, but without 
+	DSL static import baggage: https://github.com/tomjankes/wiremock-groovy
+
+- Question: Can Spring Cloud Contract Consumer Annotations be Support at Test Class method level
+versus Class Level?
+
+- Question: Can Spring Cloud Contract Consumer Annotations support tagging multiple versions, or
+version increments?
+
+
