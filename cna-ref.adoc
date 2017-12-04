@@ -21,7 +21,8 @@ Cloud Native - Resources
 
 === Netflix OSS
 - https://github.com/Netflix/ribbon/wiki/[Ribbon]
-- https://github.com/Netflix/Hystrix/wiki/Configuration[Hystrix]
+- https://github.com/Netflix/Hystrix/wiki/[Hystrix Wiki]
+- https://github.com/Netflix/Hystrix/wiki/Configuration[Hystrix Configuration]
 
 === Spring Boot
 - https://docs.spring.io/spring-boot/docs/1.5.7.RELEASE/reference/htmlsingle/[Spring boot Docs]
