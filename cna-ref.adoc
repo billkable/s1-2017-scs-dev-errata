@@ -33,6 +33,7 @@ Cloud Native - Resources
 - Spring Cloud Config:
 	* https://cloud.spring.io/spring-cloud-config/[Project Overview]
 	* https://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.3.3.RELEASE/single/spring-cloud-config.html[Docs]
+	* http://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.4.0.RELEASE/single/spring-cloud-config.html#discovery-first-bootstrap[Configuring Config Clients for Discovery First]
 
 === Spring Cloud Netflix
 - https://cloud.spring.io/spring-cloud-netflix/[Project Overview]
