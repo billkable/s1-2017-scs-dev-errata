@@ -1,0 +1,44 @@
+
+
+## Install CF CLI
+
+[CODE.small,bash]
+----
+    brew install cloudfoundry/tap/cf-cli
+----
+
+... or download installer at https://console.run.pivotal.io/tools
+
+### PCF (in class)
+
+[CODE.small,bash]
+----
+    cf login -a https://api.sys.selma.cf-app.com --skip-ssl-validation
+    user:     YOUR_EMAIL
+    passwd:   springone2017
+----
+
+### PWS (outside)
+
+[CODE.small,bash]
+----
+    cf login -a https://api.run.pivotal.io
+    user:     ???
+    passwd:   ???
+----
+
+### Get the Articulate Code and Build It
+
+[CODE.small,bash]
+----
+	git clone https://github.com/pivotal-education/pcf-articulate-code
+	cd pcf-articulate-code
+	./mvnw clean package
+----
+
+### Push Articulate App to Cloud Foundary
+
+[CODE.small,bash]
+----
+	cf push articulate -p target/articulate-0.0.1-SNAPSHOT.jar --random-route
+----

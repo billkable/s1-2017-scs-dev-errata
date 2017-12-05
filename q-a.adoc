@@ -19,4 +19,13 @@ versus Class Level?
 - Question: Can Spring Cloud Contract Consumer Annotations support tagging multiple versions, or
 version increments?
 
+- Eureka Standalone (not running on CF) Questions: 
+	* How to configfure Eureka Zone Declarations in Standalone (IaaS, Virtualized) with scalable 
+	and multi-zone deployment
+	* Significance/Configuration of Eureka Hostname?  How should be configured?
 
+- How do the Spring Cloud Config Clients know how to look up the Config Service endpoints when
+Discovery is enabled?
+	* Answer:  By default the Config client will look for "configserver" application URLs from
+	Service Registry.  But if desired to name config server differently, may be configured through spring.cloud.config.discovery.serviceId property.  See: http://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.4.0.RELEASE/single/spring-cloud-config.html#discovery-first-bootstrap
+	
