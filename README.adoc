@@ -1,0 +1,7 @@
+# README
+This errata site contains following:
+
+- link:cna-ref{outfilesuffix}[References]
+- link:q-a{outfilesuffix}[Q&A]
+- link:beyond-12-factor{outfilesuffix}[Beyond 12 Factor]
+- link:articulate{outfilesuffix}[Running Articulate Application]

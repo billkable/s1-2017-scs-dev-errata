@@ -28,4 +28,8 @@ version increments?
 Discovery is enabled?
 	* Answer:  By default the Config client will look for "configserver" application URLs from
 	Service Registry.  But if desired to name config server differently, may be configured through spring.cloud.config.discovery.serviceId property.  See: http://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.4.0.RELEASE/single/spring-cloud-config.html#discovery-first-bootstrap
+
+- How to use Git Labels with Config Server?
+	* Answer: The general idea is to configure label for application in an environment.  This is done at the Config Server configuration, and the combination of Spring Application Name and Profile driven from application config will point to a Git backend profile.  The appropriate Git backend profile will have the label in the path, or the label may be parameterized in environment.
+	* See more here: http://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.3.1.RELEASE/#_environment_repository[Config Server Environment Repository]
 	
