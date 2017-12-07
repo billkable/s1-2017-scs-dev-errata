@@ -8,26 +8,27 @@ Q&A
 
 == Technical Q&A
 === Testing
-- Question: Can Wiremock be used with Spock testing framework?
-	* Answers:
+- **Question**: Can Wiremock be used with Spock testing framework?
+	* **Answers**:
 	** See here, looks like a clean approach to use Wiremock capabilities with Spock, but without 
 	DSL static import baggage: https://github.com/tomjankes/wiremock-groovy
 
-- Question: Can Spring Cloud Contract Consumer Annotations be Support at Test Class method level
+- **Question**: Can Spring Cloud Contract Consumer Annotations be Support at Test Class method level
 versus Class Level?
 
-- Question: Can Spring Cloud Contract Consumer Annotations support tagging multiple versions, or
+- **Question**: Can Spring Cloud Contract Consumer Annotations support tagging multiple versions, or
 version increments?
 
 - Eureka Standalone (not running on CF) Questions: 
-	* How to configfure Eureka Zone Declarations in Standalone (IaaS, Virtualized) with scalable 
+	* **Question**: How to configfure Eureka Zone Declarations in Standalone (IaaS, Virtualized) with scalable 
 	and multi-zone deployment
-	* Significance/Configuration of Eureka Hostname?  How should be configured?
+	* **Question**: Significance/Configuration of Eureka Hostname?  How should be configured?
 
-- Does SCS Service Registry Support Peer-to-Peer replication?
+- **Question**: Does SCS Service Registry Support Peer-to-Peer replication?
+	* **Answer**:  Yes, see http://docs.pivotal.io/spring-cloud-services/1-4/common/service-registry/enabling-peer-replication.html[here] for more info.
 
-- Does SCS Service Registry Support Container-to-Container (C2C) across PCF instances?
-	* No.  C2C spanning foundations is not yet supported in PCF, although Service Registry may
+- **Question**: Does SCS Service Registry Support Container-to-Container (C2C) across PCF instances?
+	* **Answer**: No.  C2C spanning foundations is not yet supported in PCF, although Service Registry may
 	support Peer replication across PCF instances using route mode (using GoRouter vs. direct container to container).
 	See the following for more information:
 		** http://docs.pivotal.io/spring-cloud-services/1-4/common/service-registry/index.html[Service Registry]
@@ -38,12 +39,12 @@ version increments?
 		** http://docs.pivotal.io/spring-cloud-services/1-4/common/service-registry/writing-client-applications.html#register-using-c2c[Register Apps Using C2C]
 		** https://docs.pivotal.io/pivotalcf/1-12/concepts/understand-cf-networking.html[Container-to-Container (C2C) Networking]
 
-- How do the Spring Cloud Config Clients know how to look up the Config Service endpoints when
+- **Question**: How do the Spring Cloud Config Clients know how to look up the Config Service endpoints when
 Discovery is enabled?
-	* Answer:  By default the Config client will look for "configserver" application URLs from
+	* **Answer**:  By default the Config client will look for "configserver" application URLs from
 	Service Registry.  But if desired to name config server differently, may be configured through spring.cloud.config.discovery.serviceId property.  See: http://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.4.0.RELEASE/single/spring-cloud-config.html#discovery-first-bootstrap
 
-- How to use Git Labels with Config Server?
-	* Answer: The general idea is to configure label for application in an environment.  This is done at the Config Server configuration, and the combination of Spring Application Name and Profile driven from application config will point to a Git backend profile.  The appropriate Git backend profile will have the label in the path, or the label may be parameterized in environment.
-	* See more here: http://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.3.1.RELEASE/#_environment_repository[Config Server Environment Repository]
+- **Question**: How to use Git Labels with Config Server?
+	* **Answer**: The general idea is to configure label for application in an environment.  This is done at the Config Server configuration, and the combination of Spring Application Name and Profile driven from application config will point to a Git backend profile.  The appropriate Git backend profile will have the label in the path, or the label may be parameterized in environment.
+		** See more here: http://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.3.1.RELEASE/#_environment_repository[Config Server Environment Repository]
 	
