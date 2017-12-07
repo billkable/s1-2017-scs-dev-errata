@@ -24,6 +24,20 @@ version increments?
 	and multi-zone deployment
 	* Significance/Configuration of Eureka Hostname?  How should be configured?
 
+- Does SCS Service Registry Support Peer-to-Peer replication?
+
+- Does SCS Service Registry Support Container-to-Container (C2C) across PCF instances?
+	* No.  C2C spanning foundations is not yet supported in PCF, although Service Registry may
+	support Peer replication across PCF instances using route mode (using GoRouter vs. direct container to container).
+	See the following for more information:
+		** http://docs.pivotal.io/spring-cloud-services/1-4/common/service-registry/index.html[Service Registry]
+		** http://docs.pivotal.io/spring-cloud-services/1-4/common/circuit-breaker/index.html[Circuit Breaker Dashboard]
+		** http://docs.pivotal.io/spring-cloud-services/1-4/common/service-registry/enabling-peer-replication.html[Service Registry Cross PCF Peer Replication]
+		** http://docs.pivotal.io/spring-cloud-services/1-4/common/service-registry/connectors.html#instance-specific-routing-in-ribbon[Instance Specific Routing Through Ribbon]
+		** http://docs.pivotal.io/spring-cloud-services/1-4/common/service-registry/writing-client-applications.html#consume-using-c2c[Consume Using C2C]
+		** http://docs.pivotal.io/spring-cloud-services/1-4/common/service-registry/writing-client-applications.html#register-using-c2c[Register Apps Using C2C]
+		** https://docs.pivotal.io/pivotalcf/1-12/concepts/understand-cf-networking.html[Container-to-Container (C2C) Networking]
+
 - How do the Spring Cloud Config Clients know how to look up the Config Service endpoints when
 Discovery is enabled?
 	* Answer:  By default the Config client will look for "configserver" application URLs from
